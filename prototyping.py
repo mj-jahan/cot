@@ -1,38 +1,41 @@
-import pandas as pd
+from zipfile import ZipFile
+import os
 
-path = "raw_data"
-
-fields = ['Market_and_Exchange_Names',
-          'Report_Date_as_MM_DD_YYYY',
-          'Pct_of_OI_Tot_Rept_Long_All',
-          'Pct_of_OI_Tot_Rept_Short_All']
+file_set = []
+name = "com_fin_xls_"
+excel = "FinComYY.xls"
+counter = 2017
 
 
-CFTC_CAD = "CANADIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE"
-year = 2020
+# set file_set variable
+def cleanFiles():
+    for i in range(counter, 2023):
+        file_set.append(f"{name}{i}.zip")
 
-data_2020 = pd.read_excel(f'{path}/{year}.xls', index_col=0, usecols=fields, dayfirst=True)
 
-data_2020 = data_2020.rename(columns={
-    'Market_and_Exchange_Names': 'Market',
-    'Report_Date_as_MM_DD_YYYY': 'Date',
-    'Pct_of_OI_Tot_Rept_Long_All': 'OI_LONG',
-    'Pct_of_OI_Tot_Rept_Short_All': 'OI_SHORT'})
+# extract from .zip
+def extractFile(file):
+    with ZipFile(file) as zf:
+        ZipFile.extractall(zf)
 
-cadLen = len(data_2020.loc[CFTC_CAD]['Date'])  # length of dataset to work with later
 
-# variables to obtain from filtered data set
-cad_date = []
-cad_oi_long = []
-cad_oi_short = []
+# rename file
+def renameFile():
+    os.rename(excel, f"{counter}.xls")
+    counter == counter + 1
 
-# iterate sample and store data in local
-for index, row in data_2020.loc[CFTC_CAD].iterrows():
-    cad_date.append(row.loc["Date"])
-    cad_oi_long.append(row.loc["OI_LONG"])
-    cad_oi_short.append(row.loc["OI_SHORT"])
 
-columns = ["Date", "OI_LONG", "OI_SHORT"]
-CAD_DATA = pd.DataFrame(list(zip(cad_date, cad_oi_long, cad_oi_short)), columns=columns)
+def main():
+    # create data set
+    cleanFiles()
+    x = 2017
 
-print(CAD_DATA)
+    # extract all files
+    for file in file_set:
+        extractFile(file)
+        os.rename(excel, f"{x}.xls")
+        x = x + 1
+
+
+if __name__ == '__main__':
+    main()
