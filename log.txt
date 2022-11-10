@@ -1,0 +1,12 @@
+05/11/2022 - 22:43
+(+) extracted and ready to use COT full data by year.
+'''
+
+10/11/2022 - 17:23
+(+) resolved bug for filtering sample from population.
+(+) functionality to store into dataframe
+
+MVP would be;
+= able to get data, clean and load it
+= use TS into graphics libs
+= load adjacent currency data for comparison
