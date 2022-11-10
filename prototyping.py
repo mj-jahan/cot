@@ -1,41 +1,58 @@
-from zipfile import ZipFile
-import os
+# Shift+F10 to execute it or replace it with your code.
+# Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# Use a breakpoint to debug your script.
+# Press Ctrl+F8 to toggle the breakpoint.
 
-file_set = []
-name = "com_fin_xls_"
-excel = "FinComYY.xls"
-counter = 2017
+'''
+Script to load COT data and graph it in a comprehensible way,
+such that it can be used during analysis phase.
+'''
 
+import pandas as pd
+import matplotlib.pyplot as plt
 
-# set file_set variable
-def cleanFiles():
-    for i in range(counter, 2023):
-        file_set.append(f"{name}{i}.zip")
+path = "raw_data"
 
+fields = ['Market_and_Exchange_Names',
+          'Report_Date_as_MM_DD_YYYY',
+          'Pct_of_OI_Tot_Rept_Long_All',
+          'Pct_of_OI_Tot_Rept_Short_All']
 
-# extract from .zip
-def extractFile(file):
-    with ZipFile(file) as zf:
-        ZipFile.extractall(zf)
+CFTC_CAD = "CANADIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE"
+year = 2020
 
-
-# rename file
-def renameFile():
-    os.rename(excel, f"{counter}.xls")
-    counter == counter + 1
-
-
-def main():
-    # create data set
-    cleanFiles()
-    x = 2017
-
-    # extract all files
-    for file in file_set:
-        extractFile(file)
-        os.rename(excel, f"{x}.xls")
-        x = x + 1
+# variables to obtain from filtered data set
+cad_date = []
+cad_oi_long = []
+cad_oi_short = []
+columns = ["Date", "OI_LONG", "OI_SHORT"]
 
 
-if __name__ == '__main__':
-    main()
+def getAssetSpecificCOT():
+    cot_specific = pd.read_excel(f'{path}/{year}.xls', index_col=0, usecols=fields, dayfirst=True)
+
+    cot_specific = cot_specific.rename(columns={
+        'Market_and_Exchange_Names': 'Market',
+        'Report_Date_as_MM_DD_YYYY': 'Date',
+        'Pct_of_OI_Tot_Rept_Long_All': 'OI_LONG',
+        'Pct_of_OI_Tot_Rept_Short_All': 'OI_SHORT'})
+
+    cadLen = len(cot_specific.loc[CFTC_CAD]['Date'])  # length of dataset to work with later
+
+    # iterate sample and store data in local
+    for index, row in cot_specific.loc[CFTC_CAD].iterrows():
+        cad_date.append(row.loc["Date"])
+        cad_oi_long.append(row.loc["OI_LONG"])
+        cad_oi_short.append(row.loc["OI_SHORT"])
+
+    CAD_DATA = pd.DataFrame(list(zip(cad_date, cad_oi_long, cad_oi_short)), columns=columns)
+    return CAD_DATA
+
+
+CAD_DATA = getAssetSpecificCOT()
+
+plt.plot(CAD_DATA['Date'],CAD_DATA['OI_LONG'])
+plt.title('Open Interest Long (%)')
+plt.xlabel('Date')
+plt.ylabel('OI_Long')
+plt.show()

@@ -10,3 +10,7 @@ MVP would be;
 = able to get data, clean and load it
 = use TS into graphics libs
 = load adjacent currency data for comparison
+
+(+) github functionality
+(+) refactored main() for uptodate,
+    will be including extract.py refactored over the next update.
