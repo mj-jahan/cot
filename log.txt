@@ -1,6 +1,21 @@
-05/11/2022 - 22:43
-(+) extracted and ready to use COT full data by year.
-'''
+11/11/2022 - 16:04
+functionality planning
+
+file search, scan, download, collate
+    - check directory for raw_data folder
+
+    [FALSE]
+        - if no raw_data folder, create one
+            - go COT website
+            - pull all years zipped directories
+            - unzip all files
+            - collate into single dataframe
+
+    [TRUE]
+        - if raw_data folder, check contents
+            - must be in %YYYY.xls format
+            - what years does file directory have? what years don't they have?
+
 
 10/11/2022 - 17:23
 (+) resolved bug for filtering sample from population.
@@ -16,3 +31,8 @@ MVP would be;
     will be including extract.py refactored over the next update.
 
 need functionality to check on weekly basis and download+append most recent value
+
+
+05/11/2022 - 22:43
+(+) extracted and ready to use COT full data by year.
+'''

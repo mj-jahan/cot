@@ -8,30 +8,45 @@ fields = ['Market_and_Exchange_Names',
           'Pct_of_OI_Tot_Rept_Long_All',
           'Pct_of_OI_Tot_Rept_Short_All']
 
-
-def combineSheets():
-    cot_year = []
-    cot_year = pd.DataFrame()
-    path = "raw_data/"
-
-    dir_limit = len((os.listdir(path)))
-
-    years = []
-    for i in range(2016, 2023):
-        years.append(i)
-
-    print(years)
+path = 'raw_data'
 
 
+# check current directory folder.
+# if no raw_data folder, create one.
+# if raw_data folder, check contents.
+def checkDirectory():
+    for index, file in enumerate(os.listdir()):
+        if path in file:
+            scanFiles()
 
-#    for index, file in enumerate(os.listdir(path)):
+
+# scan directory for .xls files
+# process titles, check if needed to download more
+def scanFiles():
+    for index, file in enumerate(os.listdir(path)):
+        print(f"{index} - {file}")
 
 
-#        cot_year = cot_year.append(pd.read_excel(f'{file}', index_col=0, usecols=fields))
+# download zipped files from cot website
+def getData():
+    return False
+
+
+# cot_year = cot_year.append(pd.read_excel(f'{file}', index_col=0, usecols=fields))
+def prepareData():
+    return False
+
+# if theres files already in there, still go ahead to the website and override.
+
+
+# create raw_data folder
+def makeDirectory():
+    print("True")
+    return False
 
 
 def main():
-    combineSheets()
+    checkDirectory()
 
 
 main()
