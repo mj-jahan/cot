@@ -5,14 +5,14 @@ file search, scan, download, collate
     - check directory for raw_data folder
 
     [FALSE]
-        - if no raw_data folder, create one
+[done]        - if no raw_data folder, create one
 [done]            - go COT website
 [done]            - pull all years zipped directories
 [done]            - unzip all files
             - collate into single dataframe
 
     [TRUE]
-        - if raw_data folder, check contents
+[done]        - if raw_data folder, check contents
             - must be in %YYYY.xls format
             - what years does file directory have? what years don't they have?
 

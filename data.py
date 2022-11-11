@@ -7,6 +7,29 @@ Ready-to-use in folder.
 import requests, zipfile, io, os
 
 
+def dialog(hasDir):
+    inputArg = []
+
+    if hasDir:
+        if checkDirectoryContents():
+            print("folder and files")
+
+    # what files in directory? should update or override directory?
+
+    elif not hasDir:
+        print("[1] - Get all data and refresh directory")
+        print("[2] - Enter own command line")
+
+        choice = int(input("Enter: "))
+
+        if choice == 1:
+            getAllData()
+        elif choice == 2:
+            print("arguments are: str(url), str(path), str(year), str(name)")
+            for i in range(0, 4):
+                inputArg.append(input(f"arg[{i}]: "))
+
+
 # single function that can be looped.
 def downloadData(url, path, year, name):
     print(f"Begin {year}.xls")
@@ -17,6 +40,7 @@ def downloadData(url, path, year, name):
     print(f"{year}.xls successful")
 
 
+# get all current data
 def getAllData():
     path = "raw_data"
     URL = "https://www.cftc.gov/files/dea/history/com_fin_xls"
@@ -34,28 +58,27 @@ def getAllData():
     downloadData(f"{URL06_16}_{YEAR06_16}.zip", path, YEAR06_16, name06_16)
 
 
-def dialog(inDir):
-    inputArg = []
+# check if directory has contents
+# if directory, access all file names
+# if no directory, create one, and fill with getAllData()
+def checkDirectoryContents(hasDir):
+    contents = []
 
-    if inDir:
-        print("You have directory")
-
-        # what files in directory? should update or override directory?
-
-    elif not inDir:
-        print("[1] - Get all data and refresh directory")
-        print("[2] - Enter own command line")
-
-        choice = int(input("Enter: "))
-
-        if choice == 1:
-            getAllData()
-        elif choice == 2:
-            print("arguments are: str(url), str(path), str(year), str(name)")
-            for i in range(0, 4):
-                inputArg.append(input(f"arg[{i}]: "))
+    if hasDir:
+        for index, file in enumerate(os.listdir("raw_data")):
+            contents.append(file)
 
 
+    elif not hasDir:
+        os.mkdir("raw_data")
+        getAllData()
+    else:
+        return False
+
+    print(contents)
+
+
+# check if raw_data is in directory
 def checkDirectory():
     count = 0
 
@@ -64,15 +87,18 @@ def checkDirectory():
             count = count + 1
 
     if count > 0:
-        dialog(True)
+        checkDirectoryContents(True)
     elif count <= 0:
-        dialog(False)
+        checkDirectoryContents(False)
 
 
+def directoryLogic():
+    checkDirectory()
 
 
 def main():
-    checkDirectory()
+    directoryLogic()
+
 
 '''
     for index, file in enumerate(os.listdir()):
