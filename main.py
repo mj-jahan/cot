@@ -1,8 +1,3 @@
-# Shift+F10 to execute it or replace it with your code.
-# Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-# Use a breakpoint to debug your script.
-# Press Ctrl+F8 to toggle the breakpoint.
-
 '''
 Script to load COT data and graph it in a comprehensible way,
 such that it can be used during analysis phase.
@@ -10,6 +5,7 @@ such that it can be used during analysis phase.
 
 import pandas as pd
 import numpy as np
+from matplotlib import pyplot as plt
 
 path = "raw_data"
 
@@ -49,4 +45,15 @@ def getAssetSpecificCOT():
     return CAD_DATA
 
 
-print(getAssetSpecificCOT())
+def displaySpecificAsset():
+    plt.plot(CAD_DATA['Date'], CAD_DATA['OI_LONG'])
+    plt.title('Open Interest Long (%)')
+    plt.xlabel('Date')
+    plt.ylabel('OI_Long')
+    plt.show()
+
+
+CAD_DATA = getAssetSpecificCOT()
+displaySpecificAsset()
+
+

@@ -1,3 +1,5 @@
+# Focused primarily on extracting zipped files of the downloaded financial COT yearly data.
+
 from zipfile import ZipFile
 import os
 

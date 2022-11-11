@@ -14,3 +14,5 @@ MVP would be;
 (+) github functionality
 (+) refactored main() for uptodate,
     will be including extract.py refactored over the next update.
+
+need functionality to check on weekly basis and download+append most recent value
