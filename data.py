@@ -1,3 +1,9 @@
+'''
+Download COT data
+Extract
+Ready-to-use in folder.
+'''
+
 import requests, zipfile, io, os
 
 
@@ -28,30 +34,52 @@ def getAllData():
     downloadData(f"{URL06_16}_{YEAR06_16}.zip", path, YEAR06_16, name06_16)
 
 
-def dialog():
+def dialog(inDir):
     inputArg = []
 
-    print("[1] - Get all data and refresh directory")
-    print("[2] - Enter own command line")
+    if inDir:
+        print("You have directory")
 
-    choice = int(input("Enter: "))
+        # what files in directory? should update or override directory?
 
-    if choice == 1:
-        getAllData()
-    elif choice == 2:
-        print("arguments are: str(url), str(path), str(year), str(name)")
-        for i in range(0, 4):
-            inputArg.append(input(f"arg[{i}]: "))
-    else:
-        return False
+    elif not inDir:
+        print("[1] - Get all data and refresh directory")
+        print("[2] - Enter own command line")
 
-    print(inputArg)
+        choice = int(input("Enter: "))
+
+        if choice == 1:
+            getAllData()
+        elif choice == 2:
+            print("arguments are: str(url), str(path), str(year), str(name)")
+            for i in range(0, 4):
+                inputArg.append(input(f"arg[{i}]: "))
+
+
+def checkDirectory():
+    count = 0
+
+    for index, file in enumerate(os.listdir()):
+        if "raw_data" in file:
+            count = count + 1
+
+    if count > 0:
+        dialog(True)
+    elif count <= 0:
+        dialog(False)
+
+
 
 
 def main():
-    dialog()
+    checkDirectory()
 
-
-#    downloadData()
+'''
+    for index, file in enumerate(os.listdir()):
+        if "raw_data" in file:
+            print("True")
+        else:
+            print("False")
+'''
 
 main()

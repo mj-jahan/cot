@@ -6,9 +6,9 @@ file search, scan, download, collate
 
     [FALSE]
         - if no raw_data folder, create one
-            - go COT website
-            - pull all years zipped directories
-            - unzip all files
+[done]            - go COT website
+[done]            - pull all years zipped directories
+[done]            - unzip all files
             - collate into single dataframe
 
     [TRUE]
