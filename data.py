@@ -6,6 +6,14 @@ Ready-to-use in folder.
 
 import requests, zipfile, io, os
 
+path = "raw_data"
+URL = "https://www.cftc.gov/files/dea/history/com_fin_xls"
+URL06_16 = 'https://www.cftc.gov/files/dea/history/fin_com_xls'
+YEAR = ['2022', '2021', '2020', '2019', '2018', '2017', '2006_2016']
+YEAR06_16 = '2006_2016'
+name = "FinComYY.xls"
+name06_16 = "C_TFF_2006_2016.xls"
+
 
 def dialog(hasDir):
     inputArg = []
@@ -42,70 +50,74 @@ def downloadData(url, path, year, name):
 
 # get all current data
 def getAllData():
-    path = "raw_data"
-    URL = "https://www.cftc.gov/files/dea/history/com_fin_xls"
-    URL06_16 = 'https://www.cftc.gov/files/dea/history/fin_com_xls'
-    YEAR = ['2022', '2021', '2020', '2019', '2018', '2017']
-    YEAR06_16 = '2006_2016'
-    name = "FinComYY.xls"
-    name06_16 = "C_TFF_2006_2016.xls"
-
     # all years (separated)
     for year in YEAR:
-        downloadData(f"{URL}_{year}.zip", path, year, name)
-
-    # 2006-2016 (combined)
-    downloadData(f"{URL06_16}_{YEAR06_16}.zip", path, YEAR06_16, name06_16)
+        if '2006_2016' in year:
+            downloadData(f"{URL06_16}_{year}.zip", path, year, name06_16)
+        else:
+            downloadData(f"{URL}_{year}.zip", path, year, name)
 
 
 # check if directory has contents
 # if directory, access all file names
 # if no directory, create one, and fill with getAllData()
-def checkDirectoryContents(hasDir):
-    contents = []
+def checkDirectory():
+    count = 0
+    path = "raw_data"
+    folder = False
+    file_list = []
 
-    if hasDir:
-        for index, file in enumerate(os.listdir("raw_data")):
-            contents.append(file)
+    for index, file in enumerate(os.listdir()):
+        if path in file:
+            folder = True
+
+    if folder:
+        # has files, gets list of file names from directory
+        for index, file in enumerate(os.listdir(path)):
+            file_list.append(file[:-4])  # get list of files in directory w/o '.xls'
+
+        # begin folder=TRUE logic
+
+        # if folder, has correct number of contents, print contents
+        if len(file_list) == len(YEAR):
+            print(file_list)
+
+        # if folder, no files = get all data
+        elif len(file_list) == 0:
+            getAllData()
+
+        # if folder, some files = get the rest
+        elif len(file_list) < len(YEAR):
+            get_years = []
+            counter = 0
+
+            for year in YEAR:
+                print(file_list[counter])
+                print(YEAR[counter])
+                counter = counter + 1
 
 
-    elif not hasDir:
-        os.mkdir("raw_data")
+    # if no folder, create folder and get data.
+    elif not folder:
+        os.mkdir(path)
         getAllData()
     else:
         return False
 
-    print(contents)
 
-
-# check if raw_data is in directory
-def checkDirectory():
-    count = 0
-
-    for index, file in enumerate(os.listdir()):
-        if "raw_data" in file:
-            count = count + 1
-
-    if count > 0:
-        checkDirectoryContents(True)
-    elif count <= 0:
-        checkDirectoryContents(False)
-
-
-def directoryLogic():
-    checkDirectory()
+'''
+            get_years = []
+            for i in range(0, len(YEAR)):
+                if file_list[i] == YEAR[i]:
+                    print(f"You have this file. {YEAR[i]}")
+                else:
+                    get_years.append(YEAR[i])
+            print(get_years)
+'''
 
 
 def main():
-    directoryLogic()
+    checkDirectory()
 
-
-'''
-    for index, file in enumerate(os.listdir()):
-        if "raw_data" in file:
-            print("True")
-        else:
-            print("False")
-'''
 
 main()

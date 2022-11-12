@@ -14,6 +14,7 @@ file search, scan, download, collate
     [TRUE]
 [done]        - if raw_data folder, check contents
             - must be in %YYYY.xls format
+                - get the years and compare it to local set.
             - what years does file directory have? what years don't they have?
 
 
