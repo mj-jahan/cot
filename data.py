@@ -4,7 +4,10 @@ Extract
 Ready-to-use in folder.
 '''
 
-import requests, zipfile, io, os
+import io
+import os
+import requests
+import zipfile
 
 path = "raw_data"
 URL = "https://www.cftc.gov/files/dea/history/com_fin_xls"
@@ -69,7 +72,6 @@ def checkDirectory():
                 if year not in file_list:
                     downloadData(f"{URL}_{year}.zip", path, year, name)
 
-
     # if no folder, create folder and get data.
     elif not folder:
         os.mkdir(path)
@@ -78,19 +80,4 @@ def checkDirectory():
         return False
 
 
-'''
-            get_years = []
-            for i in range(0, len(YEAR)):
-                if file_list[i] == YEAR[i]:
-                    print(f"You have this file. {YEAR[i]}")
-                else:
-                    get_years.append(YEAR[i])
-            print(get_years)
-'''
-
-
-def main():
-    checkDirectory()
-
-
-main()
+checkDirectory()

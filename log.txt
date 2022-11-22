@@ -1,3 +1,10 @@
+22/11/2022 - 20:30
+[+] getting years & compare with local set. also, check logic, download missing etc.
+[~] to work on loading and collating into single asset dataframes for late use.
+[~] lots of refatoring potential for data.py.
+[~] main.py has obtaining single asset + graphing functionality. build onto this.
+    must build bottom up for code management. i.e. from data.py as parent or infinite child
+
 11/11/2022 - 16:04
 functionality planning
 
