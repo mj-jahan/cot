@@ -15,29 +15,6 @@ name = "FinComYY.xls"
 name06_16 = "C_TFF_2006_2016.xls"
 
 
-def dialog(hasDir):
-    inputArg = []
-
-    if hasDir:
-        if checkDirectoryContents():
-            print("folder and files")
-
-    # what files in directory? should update or override directory?
-
-    elif not hasDir:
-        print("[1] - Get all data and refresh directory")
-        print("[2] - Enter own command line")
-
-        choice = int(input("Enter: "))
-
-        if choice == 1:
-            getAllData()
-        elif choice == 2:
-            print("arguments are: str(url), str(path), str(year), str(name)")
-            for i in range(0, 4):
-                inputArg.append(input(f"arg[{i}]: "))
-
-
 # single function that can be looped.
 def downloadData(url, path, year, name):
     print(f"Begin {year}.xls")
@@ -88,13 +65,9 @@ def checkDirectory():
 
         # if folder, some files = get the rest
         elif len(file_list) < len(YEAR):
-            get_years = []
-            counter = 0
-
             for year in YEAR:
-                print(file_list[counter])
-                print(YEAR[counter])
-                counter = counter + 1
+                if year not in file_list:
+                    downloadData(f"{URL}_{year}.zip", path, year, name)
 
 
     # if no folder, create folder and get data.
