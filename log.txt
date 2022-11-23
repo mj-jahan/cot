@@ -1,3 +1,7 @@
+23/11/2022 - 16:30
+[~] add a functionality which checks current year file, if larger file exists, replace.
+
+
 22/11/2022 - 20:30
 [+] getting years & compare with local set. also, check logic, download missing etc.
 [~] to work on loading and collating into single asset dataframes for late use.
